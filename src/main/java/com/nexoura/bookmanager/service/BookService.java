@@ -1,18 +1,18 @@
 package com.nexoura.bookmanager.service;
 
-import com.nexoura.bookmanager.entity.Book;
+import com.nexoura.bookmanager.dto.BookDTO;
 
 import java.util.List;
 
 public interface BookService {
 
-    Book saveBook(Book book);
+    BookDTO saveBook(BookDTO bookDTO);
 
-    List<Book> getAllBooks();
+    List<BookDTO> getAllBooks();
 
-    Book getBookById(Long id);
+    BookDTO getBookById(Long id);
 
-    Book updateBook(Long id, Book book);
+    BookDTO updateBook(Long id, BookDTO bookDTO);
 
     void deleteBook(Long id);
 
