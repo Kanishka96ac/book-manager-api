@@ -2,6 +2,7 @@ package com.nexoura.bookmanager.service.impl;
 
 import com.nexoura.bookmanager.dto.BookDTO;
 import com.nexoura.bookmanager.entity.Book;
+import com.nexoura.bookmanager.exception.ResourceNotFoundException;
 import com.nexoura.bookmanager.repository.BookRepository;
 import com.nexoura.bookmanager.service.BookService;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDTO getBookById(Long id) {
+
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Book not found with id: " + id));
 
         return mapToDTO(book);
     }
@@ -45,7 +48,8 @@ public class BookServiceImpl implements BookService {
     public BookDTO updateBook(Long id, BookDTO bookDTO) {
 
         Book existingBook = bookRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Book not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Book not found with id: " + id));
 
         existingBook.setTitle(bookDTO.getTitle());
         existingBook.setAuthor(bookDTO.getAuthor());
@@ -59,7 +63,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteBook(Long id) {
-        bookRepository.deleteById(id);
+
+        Book existingBook = bookRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Book not found with id: " + id));
+
+        bookRepository.delete(existingBook);
     }
 
     // Convert Entity → DTO
