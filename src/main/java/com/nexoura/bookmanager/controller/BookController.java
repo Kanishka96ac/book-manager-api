@@ -2,6 +2,7 @@ package com.nexoura.bookmanager.controller;
 
 import com.nexoura.bookmanager.entity.Book;
 import com.nexoura.bookmanager.service.BookService;
+import jakarta.validation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class BookController {
 
     // Create Book
     @PostMapping
-    public Book createBook(@RequestBody Book book) {
+    public Book createBook(@Valid @RequestBody Book book) {
         return bookService.saveBook(book);
     }
 
@@ -35,7 +36,7 @@ public class BookController {
 
     // Update Book
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @RequestBody Book book) {
+    public Book updateBook(@PathVariable Long id, @Valid @RequestBody Book book) {
         return bookService.updateBook(id, book);
     }
 
